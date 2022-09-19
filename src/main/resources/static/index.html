@@ -182,7 +182,7 @@
                 							<div class="card-body">
                     							<h3><b>Search Logs</b></h3><br>
 													<label class="form-label mb-3"><b>Search by ID</b></label>
-														 <input class="form-control me-2" type="number" id = "id"  placeholder="Search" required>&nbsp;&nbsp;&nbsp;
+														 <input class="form-control me-2" type="number" onkeydown="javascript: return ['Backspace','Delete','ArrowLeft','ArrowRight'].includes(event.code) ? true : !isNaN(Number(event.key)) && event.code!=='Space'"id = "id" class="form-control mb-3" id = "id"  placeholder="Search" required>&nbsp;&nbsp;&nbsp;
 															<br>	
 															<button class="btn btn-success" type="submit" name="bt"
 																	 onclick="getmobileplanlist()">Search</button>&nbsp;&nbsp;&nbsp;
