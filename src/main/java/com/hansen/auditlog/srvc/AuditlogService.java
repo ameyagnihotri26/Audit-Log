@@ -15,53 +15,56 @@ public class AuditlogService {
 	@Autowired
 	AuditlogDao auditlogDao;
 
+//	create - This function creates and save an auditLog in our database.
 	public Object create(Auditlog entity) {
-//   	Optional<Auditlog> person = auditlogDao.findById(entity.getId());
-//		if (person.isPresent()) {
-//			return null;
-//		} else {
-			Auditlog Auditlog = auditlogDao.save(entity);
-			return Auditlog;
-//		}
+		Auditlog Auditlog = auditlogDao.save(entity);
+		
+		return Auditlog;
 	}
 
+//	read - This function return the auditLog present in our database by its ID.
 	public Object read(Long id) {
-		Optional<Auditlog> person = auditlogDao.findById(id);
-		if (person.isPresent()) {
-			return person.get();
+		Optional<Auditlog> auditLogByID = auditlogDao.findById(id);
+		if (auditLogByID.isPresent()) {
+			return auditLogByID.get();
 		} else {
 			return null;
 		}
-
 	}
 
+//	readAll - This function return the list of auditLogs present inside in our database.
 	public Iterable<Auditlog> readAll() {
 		Iterable<Auditlog> AuditlogList = auditlogDao.findAll();
+		
 		return AuditlogList;
 	}
 
-	
+//	update - This function updates an auditLog present in our database.
 	public Object update(Auditlog tobemerged) {
-		// TODO Auto-generated method stub
-		Optional<Auditlog> person = auditlogDao.findById(tobemerged.getId());
-
-		if (person.isPresent() && tobemerged.getModificationDate() != null && tobemerged.getOperationType() != null
-				&& tobemerged.getEntityJson() != null && tobemerged.getId() != 0) {
+		Optional<Auditlog> updatedAuditLog = auditlogDao.findById(tobemerged.getId());
+		if (updatedAuditLog.isPresent() && 
+			tobemerged.getModificationDate() != null &&
+			tobemerged.getOperationType() != null && 
+			tobemerged.getEntityJson() != null && 
+			tobemerged.getId() != 0) {
 			Auditlog Auditlog = auditlogDao.save(tobemerged);
+			
 			return Auditlog;
 		} else {
 			return null;
 		}	
 	}
 
+//	delete - This function deletes the auditLog present inside in our database for existing ID.
 	public boolean delete(Long planid) {
-		// Homework... write the code to delete
-		Optional<Auditlog> person = auditlogDao.findById(planid);
-		if (person.isPresent()) {
+		Optional<Auditlog> deletedAuditLog = auditlogDao.findById(planid);
+		if (deletedAuditLog.isPresent()) {
 			auditlogDao.deleteById(planid);
+			
 			return true;
 		}
+		
 		return false;
 	}
 	
-	}
+}

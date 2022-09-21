@@ -1,7 +1,5 @@
 package com.hansen.auditlog.ctrlr;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,91 +13,93 @@ import com.hansen.auditlog.dao.AuditlogDao;
 import com.hansen.auditlog.model.Auditlog;
 import com.hansen.auditlog.srvc.AuditlogService;
 
-
-
 @RestController
 @RequestMapping("/audit")
 public class AuditlogController {
 
-	private Log logger = LogFactory.getLog(AuditlogController.class);
 	@Autowired
 	AuditlogService auditSrvc;
 
 	@Autowired
 	AuditlogDao auditlogDao;
 	
+//	create - This function is used to create an audit log. 
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<Object> create(@RequestBody Auditlog inputentity) {
 		ResponseEntity<Object> AuditResponse;
 		
 		Object auditLog = auditSrvc.create(inputentity);
-		String m = "Already ID : " + inputentity.getId() + " Exist";
 		if (auditLog != null) {
 			AuditResponse = new ResponseEntity<Object>(auditLog, null, HttpStatus.CREATED);
-			return AuditResponse;
 		} else {
-			AuditResponse = new ResponseEntity<Object>(m, null, HttpStatus.NOT_ACCEPTABLE);
-			return AuditResponse;
+			String message = "Already ID : " + inputentity.getId() + " Exist";
+			
+			AuditResponse = new ResponseEntity<Object>(message, null, HttpStatus.NOT_ACCEPTABLE);
 		}
+		
+		return AuditResponse;
 	}
-
+//	read - This function is used to get an audit log by its ID.
 	@RequestMapping(value = "{id}", method = RequestMethod.GET)
 	public ResponseEntity<Object> read(@PathVariable(value = "id") Long id) {
-		logger.info("Inside getbyid method");
 		ResponseEntity<Object> AuditResponse;
 
-		Object auditPlan = auditSrvc.read(id);
-		String m1 = "ID : " + id + " Not Found";
-		if (auditPlan != null) {
-			AuditResponse = new ResponseEntity<Object>(auditPlan, null, HttpStatus.OK);
-			return AuditResponse;
+		Object auditPlanByID = auditSrvc.read(id);
+		if (auditPlanByID != null) {
+			AuditResponse = new ResponseEntity<Object>(auditPlanByID, null, HttpStatus.OK);
 		} else {
-			AuditResponse = new ResponseEntity<Object>(m1, null, HttpStatus.NOT_FOUND);
-			return AuditResponse;
-
+			String message = "ID : " + id + " Not Found";
+			
+			AuditResponse = new ResponseEntity<Object>(message, null, HttpStatus.NOT_FOUND);
 		}
+		
+		return AuditResponse;
 	}
-
+//	readAll - This function is used to get list of all audit logs.
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<Iterable<Auditlog>> readAll() {
-		logger.info("Inside readAll method");
 		ResponseEntity<Iterable<Auditlog>> AuditResponse;
 
 		Iterable<Auditlog> AuditlogList = auditSrvc.readAll();
 
 		AuditResponse = new ResponseEntity<Iterable<Auditlog>>(AuditlogList, null, HttpStatus.OK);
+		
 		return AuditResponse;
 	}
 
-	// Homework: Write methods for update and delete below
-
-	@RequestMapping(method = RequestMethod.PATCH) // OR PUT
+//	update - This function is used to update an audit log.
+	@RequestMapping(method = RequestMethod.PATCH) 
 	public ResponseEntity<Object> update(@RequestBody Auditlog tobemerged) {
-		logger.info("Inside update method");
 		ResponseEntity<Object> AuditResponse;
-		Object auditPlanList = auditSrvc.update(tobemerged);
-		String m = "ID : " + tobemerged.getId() + " Not Found";
-		if (auditPlanList != null) {
-			AuditResponse = new ResponseEntity<Object>(auditPlanList, null, HttpStatus.CREATED);
-			return AuditResponse;
+		
+		Object updatedAuditPlan = auditSrvc.update(tobemerged);
+		if (updatedAuditPlan != null) {
+			AuditResponse = new ResponseEntity<Object>(updatedAuditPlan, null, HttpStatus.CREATED);
 		} else {
-			AuditResponse = new ResponseEntity<Object>(m, null, HttpStatus.NOT_FOUND);
-			return AuditResponse;
+			String message = "ID : " + tobemerged.getId() + " Not Found";
+			
+			AuditResponse = new ResponseEntity<Object>(message, null, HttpStatus.NOT_FOUND);	
 		}
+		
+		return AuditResponse;
 	}
 
+//	delete - This function is used to delete an audit log.
 	@RequestMapping(value = "{planid}", method = RequestMethod.DELETE)
 	public ResponseEntity<Object> delete(@PathVariable(value = "planid") Long planid) {
-		logger.info("Inside delete method");
 		ResponseEntity<Object> AuditResponse;
-		Boolean person = auditSrvc.delete(planid);
-		String m = "ID: " + planid + " deleted successfully";
-		String m1 = "ID: " + planid + " Not Found";
-		if (person) {
-			AuditResponse = new ResponseEntity<Object>(m, null, HttpStatus.OK);
+		
+		Boolean deletedAuditPlan = auditSrvc.delete(planid);
+		if (deletedAuditPlan) {
+			String successMessage = "ID: " + planid + " deleted successfully";
+			
+			AuditResponse = new ResponseEntity<Object>(successMessage, null, HttpStatus.OK);
 		} else {
-			AuditResponse = new ResponseEntity<Object>(m1, null, HttpStatus.NOT_FOUND);
+			String unSuccessMessage = "ID: " + planid + " Not Found";
+			
+			AuditResponse = new ResponseEntity<Object>(unSuccessMessage, null, HttpStatus.NOT_FOUND);
 		}
+		
 		return AuditResponse;
 	}
 }
