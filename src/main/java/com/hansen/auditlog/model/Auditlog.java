@@ -20,8 +20,8 @@ public class Auditlog {
 	
 	private String entityJson;
 	
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date modificationDate;
+	
+	private String modificationDate;
 
 	public Long getId() {
 		return id;
@@ -47,11 +47,11 @@ public class Auditlog {
 		this.entityJson = entityJson;
 	}
 
-	public Date getModificationDate() {
+	public String getModificationDate() {
 		return modificationDate;
 	}
 
-	public void setModificationDate(Date modificationDate) {
+	public void setModificationDate(String modificationDate) {
 		this.modificationDate = modificationDate;
 	}
 
