@@ -3,6 +3,7 @@ package com.hansen.auditlog.ctrlr;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +25,7 @@ public class AuditlogController {
 	AuditlogDao auditlogDao;
 	
 //	create - This function is used to create an audit log. 
+	@CrossOrigin
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<Object> create(@RequestBody Auditlog inputentity) {
 		ResponseEntity<Object> AuditResponse;
@@ -40,6 +42,7 @@ public class AuditlogController {
 		return AuditResponse;
 	}
 //	read - This function is used to get an audit log by its ID.
+	@CrossOrigin
 	@RequestMapping(value = "{id}", method = RequestMethod.GET)
 	public ResponseEntity<Object> read(@PathVariable(value = "id") Long id) {
 		ResponseEntity<Object> AuditResponse;
@@ -56,6 +59,7 @@ public class AuditlogController {
 		return AuditResponse;
 	}
 //	readAll - This function is used to get list of all audit logs.
+	@CrossOrigin
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<Iterable<Auditlog>> readAll() {
 		ResponseEntity<Iterable<Auditlog>> AuditResponse;
@@ -68,6 +72,7 @@ public class AuditlogController {
 	}
 
 //	update - This function is used to update an audit log.
+	@CrossOrigin
 	@RequestMapping(method = RequestMethod.PATCH) 
 	public ResponseEntity<Object> update(@RequestBody Auditlog tobemerged) {
 		ResponseEntity<Object> AuditResponse;
@@ -85,6 +90,7 @@ public class AuditlogController {
 	}
 
 //	delete - This function is used to delete an audit log.
+	@CrossOrigin
 	@RequestMapping(value = "{planid}", method = RequestMethod.DELETE)
 	public ResponseEntity<Object> delete(@PathVariable(value = "planid") Long planid) {
 		ResponseEntity<Object> AuditResponse;
