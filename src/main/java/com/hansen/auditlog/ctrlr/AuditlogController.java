@@ -14,6 +14,7 @@ import com.hansen.auditlog.dao.AuditlogDao;
 import com.hansen.auditlog.model.Auditlog;
 import com.hansen.auditlog.srvc.AuditlogService;
 
+
 @RestController
 @RequestMapping("/audit")
 public class AuditlogController {
@@ -70,6 +71,41 @@ public class AuditlogController {
 		
 		return AuditResponse;
 	}
+	
+	@CrossOrigin
+	@RequestMapping(value = "/entityjson/{entityjson}", method = RequestMethod.GET)
+    public ResponseEntity<Iterable<Auditlog>> read1(@PathVariable(value = "entityjson") String entityjson) {
+        
+        Iterable<Auditlog> mobilePlanList = auditlogDao.findByEntityJson(entityjson);
+        
+        ResponseEntity<Iterable<Auditlog>> mpResponse = new ResponseEntity<Iterable<Auditlog>>(mobilePlanList, null, HttpStatus.OK);
+        
+        return mpResponse;
+        
+    }
+	
+	@CrossOrigin
+	@RequestMapping(value = "/operationtype/{operationtype}", method = RequestMethod.GET)
+    public ResponseEntity<Iterable<Auditlog>> read2(@PathVariable(value = "operationtype") String operationtype) {
+        
+        Iterable<Auditlog> mobilePlanList = auditlogDao.findByOperationType(operationtype);
+        
+        ResponseEntity<Iterable<Auditlog>> mpResponse = new ResponseEntity<Iterable<Auditlog>>(mobilePlanList, null, HttpStatus.OK);
+        
+        return mpResponse;
+        
+    }
+	@CrossOrigin
+	@RequestMapping(value = "/modificationdate/{modificationdate}", method = RequestMethod.GET)
+    public ResponseEntity<Iterable<Auditlog>> read(@PathVariable(value = "modificationdate") String modificationdate) {
+        
+        Iterable<Auditlog> mobilePlanList = auditlogDao.findByModificationDate(modificationdate);
+        
+        ResponseEntity<Iterable<Auditlog>> mpResponse = new ResponseEntity<Iterable<Auditlog>>(mobilePlanList, null, HttpStatus.OK);
+        
+        return mpResponse;
+        
+    }
 
 //	update - This function is used to update an audit log.
 	@CrossOrigin
